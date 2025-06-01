@@ -5,7 +5,7 @@ Upchain is a decentralized job portal designed to connect developers with job op
 ## JOBlink
 
 - **Decentralized Job Posting:** Post job opportunities directly without intermediaries.
-  - [Link](https://x.com/aryan42116/status/1828122681998483802)
+
 
 ![Blinks Screenshot](https://github.com/user-attachments/assets/96c98ba6-6820-4156-90d3-a0c1b137b3e9)
 

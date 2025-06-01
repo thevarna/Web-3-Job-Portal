@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model provider{
+   id Int @id @default(autoincrement())
+   address String @unique
+   Jobs job[]
+   
+}
+
+model developer{
+  id Int @id @default(autoincrement())
+  address String @unique
+  Jobs job[]
+  Application application[]
+  Contracts contract[] 
+  
+}
+
+model job{
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  requirements String
+  amount Int
+  jobProviderId Int
+  developerId Int?
+  
+  JobProvider provider @relation(fields: [jobProviderId],references: [id])
+  Developer developer? @relation(fields: [developerId],references: [id])
+
+  Applications application[]
+  Contract      contract?
+}
+
+model application{
+  id Int @id @default(autoincrement())
+  name String
+  Skills String[]
+  coverLetter String
+  contactInforamtion String 
+  dateApplied  DateTime   @default(now())
+  JobId Int
+  DeveloperId Int
+  status ApplicationStatus @default(PENDING)
+
+  Job job @relation(fields: [JobId],references: [id])
+  Developer developer @relation(fields: [DeveloperId],references: [id])
+}
+
+model contract{
+  id Int @id @default(autoincrement())
+  jobId Int  @unique
+  DeveloperId Int
+  status contractStatus @default(IN_PROGRESS)
+  submissonLink String?
+ 
+  Job job @relation(fields: [jobId],references: [id])
+  Developer developer @relation(fields: [DeveloperId],references: [id])
+  
+}
+
+
+enum contractStatus {
+  REJECTED
+  IN_PROGRESS
+  COMPLETED
+}
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECT
+}
